@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Two PO Details Sections</title>
+    <style>
+      :root {
+        --primary: #3aaf9f;
+        --primary-hover: #2c8f84;
+        --background: #f9fbfc;
+        --text-main: #1f2937;
+        --label-color: #6b7280;
+        --card-bg: #ffffff;
+        --card-shadow-light: 0 4px 12px rgba(58, 175, 159, 0.12);
+        --card-shadow-dark: 0 6px 24px rgba(0, 0, 0, 0.06);
+        --border-color: #e5e7eb;
+        --transition-fast: 0.25s ease-in-out;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        background-color: var(--background);
+        color: var(--text-main);
+        padding: 40px 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 40px;
+        min-height: 100vh;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 900px;
+        border-radius: 12px;
+        box-shadow: var(--card-shadow-light);
+        overflow: hidden;
+        background-color: var(--card-bg);
+        user-select: none;
+      }
+
+      .header-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #e6f3f2;
+        padding: 20px 30px;
+        border-radius: 12px 12px 0 0;
+        cursor: pointer;
+        box-shadow: inset 2px 2px 5px #c1d8d5, inset -2px -2px 5px #f0fbfa;
+        transition: background-color var(--transition-fast);
+        position: relative;
+      }
+      .header-row:hover {
+        background-color: #d1ebe9;
+      }
+      .header-row h2 {
+        margin: 0;
+        font-size: 22px;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        color: var(--primary-hover);
+      }
+      .header-row::after {
+        content: "▼";
+        font-size: 18px;
+        color: var(--primary);
+        transition: transform var(--transition-fast);
+        user-select: none;
+        position: absolute;
+        right: 70px;
+      }
+      .header-row.collapsed::after {
+        transform: rotate(-90deg);
+      }
+
+      .header-row button {
+        background-color: var(--primary);
+        color: white;
+        border: none;
+        padding: 10px 22px;
+        font-size: 14px;
+        font-weight: 600;
+        border-radius: 8px;
+        cursor: pointer;
+        box-shadow: 0 4px 8px rgb(58 175 159 / 0.3);
+        transition: background-color var(--transition-fast),
+          box-shadow var(--transition-fast);
+        user-select: none;
+      }
+      .header-row button:hover,
+      .header-row button:focus-visible {
+        background-color: var(--primary-hover);
+        box-shadow: 0 6px 14px rgb(44 143 132 / 0.5);
+        outline: none;
+      }
+
+      .card {
+        background: var(--card-bg);
+        border-top: 1px solid var(--border-color);
+        box-shadow: var(--card-shadow-dark);
+        padding: 36px 44px;
+        transition: max-height 0.4s ease, opacity 0.4s ease;
+        overflow: hidden;
+      }
+      .card.hidden {
+        max-height: 0;
+        opacity: 0;
+        padding: 0 44px;
+        border-top: none;
+        pointer-events: none;
+      }
+
+      .po-item {
+        margin-bottom: 32px;
+      }
+      .po-label {
+        font-size: 13px;
+        color: var(--label-color);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 8px;
+        font-weight: 700;
+        font-family: "Segoe UI Semibold", Arial, sans-serif;
+      }
+      .po-value {
+        font-size: 17px;
+        line-height: 1.65;
+        color: var(--text-main);
+      }
+      .po-group {
+        display: flex;
+        gap: 32px;
+        flex-wrap: wrap;
+      }
+      .po-group .po-item {
+        flex: 1 1 45%;
+        min-width: 220px;
+      }
+
+      @media (max-width: 640px) {
+        .container {
+          box-shadow: none;
+          border-radius: 0;
+        }
+        .header-row {
+          padding: 16px 20px;
+        }
+        .header-row h2 {
+          font-size: 20px;
+        }
+        .header-row button {
+          padding: 10px 16px;
+          font-size: 13px;
+        }
+        .card {
+          padding: 28px 20px;
+        }
+        .po-item {
+          margin-bottom: 24px;
+        }
+        .po-value {
+          font-size: 15px;
+        }
+        .po-group {
+          flex-direction: column;
+          gap: 16px;
+        }
+        .po-group .po-item {
+          flex-basis: 100%;
+          min-width: auto;
+        }
+        .header-row::after {
+          right: 55px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container" id="poSection1">
+      <div
+        class="header-row"
+        id="toggleHeader1"
+        role="button"
+        tabindex="0"
+        aria-controls="poCard1"
+        aria-expanded="true"
+        aria-label="Toggle PO Details section 1"
+      >
+        <h2>PO Details</h2>
+        <button id="editBtn1" aria-label="Edit PO Details 1">Edit</button>
+      </div>
+      <div class="card" id="poCard1">
+        <div class="po-item">
+          <div class="po-label">PO Title</div>
+          <div class="po-value">
+            SRPOM106574_FY26Q2 GCR AIBP Content Generation Support
+          </div>
+        </div>
+        <div class="po-item">
+          <div class="po-label">PO Description</div>
+          <div class="po-value">
+            What: Content creation services for FY26 including planning,
+            structure, writing, and project management.
+          </div>
+        </div>
+        <div class="po-group">
+          <div class="po-item">
+            <div class="po-label">PO Owner</div>
+            <div class="po-value">Sarah Li (shuyinli)</div>
+          </div>
+          <div class="po-item">
+            <div class="po-label">Company Code</div>
+            <div class="po-value">1107 - MICROSOFT CHINA CO LTD</div>
+          </div>
+        </div>
+        <div class="po-group">
+          <div class="po-item">
+            <div class="po-label">Shipping Location</div>
+            <div class="po-value">
+              No 5, Dan Ling Street, Beijing, CN, 100080
+            </div>
+          </div>
+          <div class="po-item">
+            <div class="po-label">PO Start Date</div>
+            <div class="po-value">10/9/2025</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container" id="poSection2">
+      <div
+        class="header-row"
+        id="toggleHeader2"
+        role="button"
+        tabindex="0"
+        aria-controls="poCard2"
+        aria-expanded="true"
+        aria-label="Toggle PO Details section 2"
+      >
+        <h2>Selected Capability</h2>
+        <button id="editBtn2" aria-label="Edit PO Details 2">Edit</button>
+      </div>
+      <div class="card" id="poCard2">
+        <div class="po-item">
+          <div class="po-label">Selected Capability</div>
+          <div class="po-value">Technical Content</div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function setupToggle(sectionNum) {
+        const toggleHeader = document.getElementById(
+          `toggleHeader${sectionNum}`
+        );
+        const poCard = document.getElementById(`poCard${sectionNum}`);
+        const editBtn = document.getElementById(`editBtn${sectionNum}`);
+
+        function toggleCard() {
+          const isHidden = poCard.classList.toggle("hidden");
+          toggleHeader.setAttribute("aria-expanded", !isHidden);
+          toggleHeader.classList.toggle("collapsed", isHidden);
+        }
+
+        toggleHeader.addEventListener("click", () => {
+          toggleCard();
+        });
+
+        toggleHeader.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            toggleCard();
+          }
+        });
+
+        editBtn.addEventListener("click", (event) => {
+          event.stopPropagation();
+          alert(
+            `Edit functionality to be implemented for PO Details ${sectionNum}.`
+          );
+        });
+      }
+
+      setupToggle(1);
+      setupToggle(2);
+    </script>
+  </body>
+</html>
