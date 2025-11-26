@@ -1,284 +1,451 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
+    <meta charset="utf-8" />
+    <title>PO Guide — JS Parity Framework (CODEGEN)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Two PO Details Sections</title>
+    <link rel="stylesheet" href="styles/styles.css" />
     <style>
-      :root {
-        --primary: #3aaf9f;
-        --primary-hover: #2c8f84;
-        --background: #f9fbfc;
-        --text-main: #1f2937;
-        --label-color: #6b7280;
-        --card-bg: #ffffff;
-        --card-shadow-light: 0 4px 12px rgba(58, 175, 159, 0.12);
-        --card-shadow-dark: 0 6px 24px rgba(0, 0, 0, 0.06);
-        --border-color: #e5e7eb;
-        --transition-fast: 0.25s ease-in-out;
+      /* ------ Theme Toggle Button ------ */
+      #themeToggleBtn {
+        margin: 14px;
+        padding: 8px 16px;
+        font-weight: 600;
+        border-radius: 10px;
+        background-color: var(--brand);
+        color: #0b0c0d;
+        border: none;
+        cursor: pointer;
+        align-self: start;
+        box-shadow: 0 2px 6px rgba(91, 155, 243, 0.5);
+        transition: background-color 0.3s ease;
       }
-
-      body {
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        margin: 0;
-        background-color: var(--background);
-        color: var(--text-main);
-        padding: 40px 20px;
+      #themeToggleBtn:hover {
+        background-color: var(--accent);
+        color: #fff;
+        box-shadow: 0 4px 12px rgba(43, 195, 161, 0.7);
+      }
+      /* ------ Responsive layout ------ */
+      .main-flex {
         display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 40px;
-        min-height: 100vh;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
+        gap: 18px;
       }
 
+      /* PO Details and Capability cards formatting */
       .container {
-        width: 100%;
-        max-width: 900px;
-        border-radius: 12px;
-        box-shadow: var(--card-shadow-light);
-        overflow: hidden;
-        background-color: var(--card-bg);
-        user-select: none;
+        margin-bottom: 16px;
       }
-
       .header-row {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        background-color: #e6f3f2;
-        padding: 20px 30px;
-        border-radius: 12px 12px 0 0;
-        cursor: pointer;
-        box-shadow: inset 2px 2px 5px #c1d8d5, inset -2px -2px 5px #f0fbfa;
-        transition: background-color var(--transition-fast);
-        position: relative;
-      }
-      .header-row:hover {
-        background-color: #d1ebe9;
+        background: var(--panel);
+        padding: 12px 18px;
+        border-radius: 10px 10px 0 0;
+        border-bottom: 1px solid var(--line);
       }
       .header-row h2 {
-        margin: 0;
-        font-size: 22px;
-        font-weight: 700;
-        letter-spacing: 0.05em;
-        color: var(--primary-hover);
-      }
-      .header-row::after {
-        content: "▼";
         font-size: 18px;
-        color: var(--primary);
-        transition: transform var(--transition-fast);
-        user-select: none;
-        position: absolute;
-        right: 70px;
+        margin: 0;
+        color: var(--brand);
+        letter-spacing: 1px;
       }
-      .header-row.collapsed::after {
-        transform: rotate(-90deg);
-      }
-
       .header-row button {
-        background-color: var(--primary);
-        color: white;
-        border: none;
-        padding: 10px 22px;
-        font-size: 14px;
-        font-weight: 600;
+        padding: 6px 18px;
         border-radius: 8px;
+        border: none;
+        background: var(--accent);
+        color: #fff;
+        font-weight: bold;
+        font-size: 16px;
         cursor: pointer;
-        box-shadow: 0 4px 8px rgb(58 175 159 / 0.3);
-        transition: background-color var(--transition-fast),
-          box-shadow var(--transition-fast);
-        user-select: none;
       }
-      .header-row button:hover,
-      .header-row button:focus-visible {
-        background-color: var(--primary-hover);
-        box-shadow: 0 6px 14px rgb(44 143 132 / 0.5);
-        outline: none;
-      }
-
-      .card {
-        background: var(--card-bg);
-        border-top: 1px solid var(--border-color);
-        box-shadow: var(--card-shadow-dark);
-        padding: 36px 44px;
-        transition: max-height 0.4s ease, opacity 0.4s ease;
-        overflow: hidden;
-      }
-      .card.hidden {
-        max-height: 0;
-        opacity: 0;
-        padding: 0 44px;
-        border-top: none;
-        pointer-events: none;
-      }
-
-      .po-item {
-        margin-bottom: 32px;
-      }
-      .po-label {
-        font-size: 13px;
-        color: var(--label-color);
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        margin-bottom: 8px;
-        font-weight: 700;
-        font-family: "Segoe UI Semibold", Arial, sans-serif;
-      }
-      .po-value {
-        font-size: 17px;
-        line-height: 1.65;
-        color: var(--text-main);
-      }
+      .po-item,
       .po-group {
         display: flex;
-        gap: 32px;
+        justify-content: flex-start;
+        gap: 36px;
+        margin-bottom: 10px;
         flex-wrap: wrap;
       }
-      .po-group .po-item {
-        flex: 1 1 45%;
+      .po-label {
+        font-size: 14px;
+        color: var(--muted);
+        font-weight: 600;
+        min-width: 150px;
+        margin-bottom: 2px;
+      }
+      .po-value {
+        font-size: 16px;
+        color: var(--ink);
+        font-weight: 400;
         min-width: 220px;
       }
-
-      @media (max-width: 640px) {
-        .container {
-          box-shadow: none;
-          border-radius: 0;
-        }
-        .header-row {
-          padding: 16px 20px;
-        }
-        .header-row h2 {
-          font-size: 20px;
-        }
-        .header-row button {
-          padding: 10px 16px;
-          font-size: 13px;
-        }
-        .card {
-          padding: 28px 20px;
-        }
-        .po-item {
-          margin-bottom: 24px;
-        }
-        .po-value {
-          font-size: 15px;
-        }
-        .po-group {
-          flex-direction: column;
-          gap: 16px;
-        }
-        .po-group .po-item {
-          flex-basis: 100%;
-          min-width: auto;
-        }
-        .header-row::after {
-          right: 55px;
-        }
+      .card.hidden {
+        display: none !important;
       }
     </style>
   </head>
-  <body>
-    <div class="container" id="poSection1">
-      <div
-        class="header-row"
-        id="toggleHeader1"
-        role="button"
-        tabindex="0"
-        aria-controls="poCard1"
-        aria-expanded="true"
-        aria-label="Toggle PO Details section 1"
-      >
-        <h2>PO Details</h2>
-        <button id="editBtn1" aria-label="Edit PO Details 1">Edit</button>
+  <body class="theme-light">
+    <header style="display: flex; justify-content: space-between">
+      <div>
+        <h1>PO Guide</h1>
       </div>
-      <div class="card" id="poCard1">
-        <div class="po-item">
-          <div class="po-label">PO Title</div>
-          <div class="po-value">
-            SRPOM106574_FY26Q2 GCR AIBP Content Generation Support
+      <div>
+        <button
+          id="themeToggleBtn"
+          title="Toggle Light/Dark Mode"
+          aria-label="Toggle Light/Dark Mode"
+          style="
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            font-size: 20px;
+            color: var(--brand);
+          "
+        >
+          <svg
+            id="moonIcon"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+          </svg>
+          <svg
+            id="sunIcon"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            style="display: none"
+          >
+            <circle cx="12" cy="12" r="5" />
+            <line x1="12" y1="1" x2="12" y2="3" />
+            <line x1="12" y1="21" x2="12" y2="23" />
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+            <line x1="1" y1="12" x2="3" y2="12" />
+            <line x1="21" y1="12" x2="23" y2="12" />
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+          </svg>
+        </button>
+      </div>
+    </header>
+    <main>
+      <div class="main-flex">
+        <!-- Main Form Card -->
+        <section class="card" id="formCard">
+          <h2>Header & Controls</h2>
+          <div class="body">
+            <div class="toolbar">
+              <button id="saveBtn">Save draft</button>
+              <button class="secondary" id="loadBtn">Load draft</button>
+              <button class="ghost" id="resetBtn">Reset</button>
+              <button class="ok" id="importJsonBtn">Import JSON</button>
+              <button id="exportJsonBtn">Export JSON</button>
+              <button class="secondary" id="exportCsvBtn">Export CSV</button>
+            </div>
+            <form class="grid" id="formGrid" autocomplete="off">
+              <!-- Example form fields -->
+              <div class="row col-6">
+                <label for="poManagement">PO Management</label>
+                <select id="poManagement" required>
+                  <option value="" disabled selected>Select an option</option>
+                  <option value="PO Extension">PO Extension</option>
+                  <option value="PO Renewal">PO Renewal</option>
+                </select>
+              </div>
+              <div class="row col-6">
+                <label for="pncInfo">P&amp;C Information</label>
+                <select id="pncInfo" required>
+                  <option value="" disabled selected>Select an option</option>
+                  <option value="With Personal and Confidential Information">
+                    With Personal and Confidential Information
+                  </option>
+                  <option value="No Personal Information">
+                    No Personal Information
+                  </option>
+                </select>
+              </div>
+              <div class="row col-6">
+                <label for="country">Country</label>
+                <select id="country" required>
+                  <option value="" disabled selected>Select Country</option>
+                  <option value="China 1107">China 1107</option>
+                  <option value="India 1010">India 1010</option>
+                </select>
+              </div>
+              <div class="row col-6">
+                <label for="categoryName">Category Name</label>
+                <select id="categoryName" required>
+                  <option value="" disabled selected>Select Category</option>
+                  <option value="3rd Party Ad Serving">
+                    3rd Party Ad Serving
+                  </option>
+                  <option value="Consultancy">Consultancy</option>
+                </select>
+              </div>
+              <div class="row col-6">
+                <label for="poUsd">PO amount in USD</label>
+                <input
+                  id="poUsd"
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  placeholder="Enter USD amount"
+                  required
+                  style="width: 100%"
+                />
+              </div>
+              <div class="row col-6">
+                <label for="poLocal">PO in Local currency</label>
+                <input
+                  id="poLocal"
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  placeholder="Auto converted"
+                  readonly
+                  style="
+                    width: 100%;
+                    font-weight: bold;
+                    color: var(--brand);
+                    background: var(--field);
+                  "
+                />
+              </div>
+            </form>
           </div>
-        </div>
-        <div class="po-item">
-          <div class="po-label">PO Description</div>
-          <div class="po-value">
-            What: Content creation services for FY26 including planning,
-            structure, writing, and project management.
+          <div class="footer">
+            <span id="statusMsg" class="status">Ready</span>
+            <span class="mono" id="calcSummary"
+              >Local: — | Tax: — | Grand: —</span
+            >
           </div>
-        </div>
-        <div class="po-group">
-          <div class="po-item">
-            <div class="po-label">PO Owner</div>
-            <div class="po-value">Sarah Li (shuyinli)</div>
-          </div>
-          <div class="po-item">
-            <div class="po-label">Company Code</div>
-            <div class="po-value">1107 - MICROSOFT CHINA CO LTD</div>
-          </div>
-        </div>
-        <div class="po-group">
-          <div class="po-item">
-            <div class="po-label">Shipping Location</div>
-            <div class="po-value">
-              No 5, Dan Ling Street, Beijing, CN, 100080
+        </section>
+
+        <section class="card" id="actionsCard">
+          <h2>Actions</h2>
+          <div class="container" id="poSection1">
+            <div
+              class="header-row"
+              id="toggleHeader1"
+              role="button"
+              tabindex="0"
+              aria-controls="poCard1"
+              aria-expanded="true"
+              aria-label="Toggle PO Details section 1"
+            >
+              <h2>PO Details</h2>
+              <button id="editBtn1" aria-label="Edit PO Details 1">Edit</button>
+            </div>
+            <div class="card" id="poCard1">
+              <div class="po-item">
+                <div class="po-label">PO Title</div>
+                <div class="po-value">
+                  SRPOM106574_FY26Q2 GCR AIBP Content Generation Support
+                </div>
+              </div>
+              <div class="po-item">
+                <div class="po-label">PO Description</div>
+                <div class="po-value">
+                  What: Content creation services for FY26 including planning,
+                  structure, writing, and project management.
+                </div>
+              </div>
+              <div class="po-group">
+                <div class="po-item">
+                  <div class="po-label">PO Owner</div>
+                  <div
+                    class="po-value"
+                    id="poOwnerValue"
+                    data-email="sarah.li@contoso.com"
+                  >
+                    Sarah Li (shuyinli)
+                  </div>
+                </div>
+                <div class="po-item">
+                  <div class="po-label">Company Code</div>
+                  <div class="po-value">1107 - MICROSOFT CHINA CO LTD</div>
+                </div>
+              </div>
+              <div class="po-group">
+                <div class="po-item">
+                  <div class="po-label">Shipping Location</div>
+                  <div class="po-value">
+                    No 5, Dan Ling Street, Beijing, CN, 100080
+                  </div>
+                </div>
+                <div class="po-item">
+                  <div class="po-label">PO Start Date</div>
+                  <div class="po-value">10/9/2025</div>
+                </div>
+              </div>
             </div>
           </div>
-          <div class="po-item">
-            <div class="po-label">PO Start Date</div>
-            <div class="po-value">10/9/2025</div>
+          <div class="container" id="poSection2">
+            <div
+              class="header-row"
+              id="toggleHeader2"
+              role="button"
+              tabindex="0"
+              aria-controls="poCard2"
+              aria-expanded="true"
+              aria-label="Toggle PO Details section 2"
+            >
+              <h2>Selected Capability</h2>
+              <button id="editBtn2" aria-label="Edit PO Details 2">Edit</button>
+            </div>
+            <div class="card" id="poCard2">
+              <div class="po-item">
+                <div class="po-label">Selected Capability</div>
+                <div class="po-value">Technical Content</div>
+              </div>
+            </div>
           </div>
+        </section>
+      </div>
+      <!-- Issues, Hints, References, and Line Items Cards BELOW -->
+      <section class="card" id="issuesCard">
+        <h2>Issues & Hints</h2>
+        <div class="body" id="issuesPanel">
+          <div class="hint">No issues yet.</div>
         </div>
-      </div>
-    </div>
-
-    <div class="container" id="poSection2">
-      <div
-        class="header-row"
-        id="toggleHeader2"
-        role="button"
-        tabindex="0"
-        aria-controls="poCard2"
-        aria-expanded="true"
-        aria-label="Toggle PO Details section 2"
-      >
-        <h2>Selected Capability</h2>
-        <button id="editBtn2" aria-label="Edit PO Details 2">Edit</button>
-      </div>
-      <div class="card" id="poCard2">
-        <div class="po-item">
-          <div class="po-label">Selected Capability</div>
-          <div class="po-value">Technical Content</div>
+        <h2>References</h2>
+        <div class="body">
+          <ul style="padding-left: 16px; margin: 0">
+            <li>
+              <a
+                href="https://ipgtgh.azurewebsites.net/PreRequestCheck/indexTGH"
+                target="_blank"
+                rel="noopener"
+                >Pre‑Request Check</a
+              >
+            </li>
+            <li>
+              <a
+                href="https://microsoft.sharepoint.com/:x:/t/MarketingServices-SDHCommunities/EZFbwEBGEY5HuTwgvHsDyLQBdVkjXxGfn9cDaS9545L7GA?e=XX0FQy"
+                target="_blank"
+                rel="noopener"
+                >Company Code / BR Guide</a
+              >
+            </li>
+            <li>
+              <a
+                href="https://msauthorize.microsoft.com/#/reporting/lookup"
+                target="_blank"
+                rel="noopener"
+                >Authorize — Reporting Lookup</a
+              >
+            </li>
+            <li>
+              <a
+                href="https://mash.crm.dynamics.com/main.aspx?appid=a91f77b7-980a-eb11-a813-000d3a3b1bda&navbar=off&pagetype=entityrecord&etn=knowledgearticle&id=e42cb655-ae84-4da2-9f4b-f845456c5df9&formid=f53f0b98-2aef-4d40-9b72-693aecf95c9d&data=%257B%2522mash_hidebpfkbarticle%2522%253A%25221%2522"
+                target="_blank"
+                rel="noopener"
+                >SH Knowledge Article</a
+              >
+            </li>
+            <li>
+              <a
+                href="https://apps.preview.powerapps.com/play/e/839eace6-59ab-4243-97ec-a5b8fcc104e4/a/769290b1-8d88-499b-baaa-469d5b143900"
+                target="_blank"
+                rel="noopener"
+                >Power Apps — MS Signatory</a
+              >
+            </li>
+          </ul>
         </div>
-      </div>
-    </div>
-
+      </section>
+      <section class="card" style="grid-column: 1/-1">
+        <h2>Line Items</h2>
+        <div class="body">
+          <div class="toolbar">
+            <button id="addRowBtn">Add line</button>
+            <button class="secondary" id="clearRowsBtn">Clear lines</button>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 26px">#</th>
+                <th>Description</th>
+                <th style="width: 120px">Qty</th>
+                <th style="width: 140px">Unit Price (USD)</th>
+                <th style="width: 100px">Tax %</th>
+                <th style="width: 140px">Line Total</th>
+                <th style="width: 60px"></th>
+              </tr>
+            </thead>
+            <tbody id="lineBody"></tbody>
+          </table>
+        </div>
+        <div class="footer">
+          <span>Totals auto‑recalculate as you type.</span>
+        </div>
+      </section>
+    </main>
+    <!-- Scripts -->
     <script>
+      // Theme toggle
+      const themeToggleBtn = document.getElementById("themeToggleBtn");
+      const body = document.body;
+      const sunIcon = document.getElementById("sunIcon");
+      const moonIcon = document.getElementById("moonIcon");
+      function updateIcons() {
+        if (body.classList.contains("theme-dark")) {
+          moonIcon.style.display = "inline";
+          sunIcon.style.display = "none";
+        } else {
+          moonIcon.style.display = "none";
+          sunIcon.style.display = "inline";
+        }
+      }
+      themeToggleBtn.addEventListener("click", () => {
+        if (body.classList.contains("theme-dark")) {
+          body.classList.replace("theme-dark", "theme-light");
+        } else {
+          body.classList.replace("theme-light", "theme-dark");
+        }
+        updateIcons();
+      });
+      updateIcons();
+
+      // Currency conversion
+      const conversionRate = 7.12;
+      document.getElementById("poUsd").addEventListener("input", function () {
+        const usdValue = parseFloat(this.value) || 0;
+        document.getElementById("poLocal").value = usdValue
+          ? (usdValue * conversionRate).toFixed(2)
+          : "";
+      });
+
+      // Toggle for PO Details/Capability
       function setupToggle(sectionNum) {
         const toggleHeader = document.getElementById(
           `toggleHeader${sectionNum}`
         );
         const poCard = document.getElementById(`poCard${sectionNum}`);
         const editBtn = document.getElementById(`editBtn${sectionNum}`);
-
         function toggleCard() {
           const isHidden = poCard.classList.toggle("hidden");
           toggleHeader.setAttribute("aria-expanded", !isHidden);
           toggleHeader.classList.toggle("collapsed", isHidden);
         }
-
-        toggleHeader.addEventListener("click", () => {
-          toggleCard();
-        });
-
+        toggleHeader.addEventListener("click", toggleCard);
         toggleHeader.addEventListener("keydown", (e) => {
           if (e.key === "Enter" || e.key === " ") {
             e.preventDefault();
             toggleCard();
           }
         });
-
         editBtn.addEventListener("click", (event) => {
           event.stopPropagation();
           alert(
@@ -286,9 +453,22 @@
           );
         });
       }
-
       setupToggle(1);
       setupToggle(2);
+
+      // ------ Populate dropdown from PO Owner field ------
+      document.addEventListener("DOMContentLoaded", function () {
+        const poOwner = document.getElementById("poOwnerValue");
+        const prepayListSelect = document.getElementById("prepayListSelect");
+        prepayListSelect.innerHTML = "";
+        if (poOwner) {
+          const opt = document.createElement("option");
+          // Uses data-email if present, textContent if not
+          opt.value = poOwner.dataset.email || poOwner.textContent;
+          opt.textContent = poOwner.textContent;
+          prepayListSelect.appendChild(opt);
+        }
+      });
     </script>
   </body>
 </html>
