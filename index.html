@@ -5,86 +5,7 @@
     <title>PO Guide — JS Parity Framework (CODEGEN)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="styles/styles.css" />
-    <style>
-      /* ------ Theme Toggle Button ------ */
-      #themeToggleBtn {
-        margin: 14px;
-        padding: 8px 16px;
-        font-weight: 600;
-        border-radius: 10px;
-        background-color: var(--brand);
-        color: #0b0c0d;
-        border: none;
-        cursor: pointer;
-        align-self: start;
-        box-shadow: 0 2px 6px rgba(91, 155, 243, 0.5);
-        transition: background-color 0.3s ease;
-      }
-      #themeToggleBtn:hover {
-        background-color: var(--accent);
-        color: #fff;
-        box-shadow: 0 4px 12px rgba(43, 195, 161, 0.7);
-      }
-      /* ------ Responsive layout ------ */
-      .main-flex {
-        display: flex;
-        gap: 18px;
-      }
-
-      /* PO Details and Capability cards formatting */
-      .container {
-        margin-bottom: 16px;
-      }
-      .header-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background: var(--panel);
-        padding: 12px 18px;
-        border-radius: 10px 10px 0 0;
-        border-bottom: 1px solid var(--line);
-      }
-      .header-row h2 {
-        font-size: 18px;
-        margin: 0;
-        color: var(--brand);
-        letter-spacing: 1px;
-      }
-      .header-row button {
-        padding: 6px 18px;
-        border-radius: 8px;
-        border: none;
-        background: var(--accent);
-        color: #fff;
-        font-weight: bold;
-        font-size: 16px;
-        cursor: pointer;
-      }
-      .po-item,
-      .po-group {
-        display: flex;
-        justify-content: flex-start;
-        gap: 36px;
-        margin-bottom: 10px;
-        flex-wrap: wrap;
-      }
-      .po-label {
-        font-size: 14px;
-        color: var(--muted);
-        font-weight: 600;
-        min-width: 150px;
-        margin-bottom: 2px;
-      }
-      .po-value {
-        font-size: 16px;
-        color: var(--ink);
-        font-weight: 400;
-        min-width: 220px;
-      }
-      .card.hidden {
-        display: none !important;
-      }
-    </style>
+    <link rel="stylesheet" href="styles/modal.css" />
   </head>
   <body class="theme-light">
     <header style="display: flex; justify-content: space-between">
@@ -96,14 +17,6 @@
           id="themeToggleBtn"
           title="Toggle Light/Dark Mode"
           aria-label="Toggle Light/Dark Mode"
-          style="
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 8px;
-            font-size: 20px;
-            color: var(--brand);
-          "
         >
           <svg
             id="moonIcon"
@@ -141,98 +54,46 @@
     </header>
     <main>
       <div class="main-flex">
-        <!-- Main Form Card -->
+        <!-- Left side - now simplified -->
         <section class="card" id="formCard">
-          <h2>Header & Controls</h2>
+          <h2>Purchase order</h2>
           <div class="body">
-            <div class="toolbar">
-              <button id="saveBtn">Save draft</button>
-              <button class="secondary" id="loadBtn">Load draft</button>
-              <button class="ghost" id="resetBtn">Reset</button>
-              <button class="ok" id="importJsonBtn">Import JSON</button>
-              <button id="exportJsonBtn">Export JSON</button>
-              <button class="secondary" id="exportCsvBtn">Export CSV</button>
-            </div>
-            <form class="grid" id="formGrid" autocomplete="off">
-              <!-- Example form fields -->
-              <div class="row col-6">
-                <label for="poManagement">PO Management</label>
-                <select id="poManagement" required>
-                  <option value="" disabled selected>Select an option</option>
-                  <option value="PO Extension">PO Extension</option>
-                  <option value="PO Renewal">PO Renewal</option>
-                </select>
-              </div>
-              <div class="row col-6">
-                <label for="pncInfo">P&amp;C Information</label>
-                <select id="pncInfo" required>
-                  <option value="" disabled selected>Select an option</option>
-                  <option value="With Personal and Confidential Information">
-                    With Personal and Confidential Information
-                  </option>
-                  <option value="No Personal Information">
-                    No Personal Information
-                  </option>
-                </select>
-              </div>
-              <div class="row col-6">
-                <label for="country">Country</label>
-                <select id="country" required>
-                  <option value="" disabled selected>Select Country</option>
-                  <option value="China 1107">China 1107</option>
-                  <option value="India 1010">India 1010</option>
-                </select>
-              </div>
-              <div class="row col-6">
-                <label for="categoryName">Category Name</label>
-                <select id="categoryName" required>
-                  <option value="" disabled selected>Select Category</option>
-                  <option value="3rd Party Ad Serving">
-                    3rd Party Ad Serving
-                  </option>
-                  <option value="Consultancy">Consultancy</option>
-                </select>
-              </div>
-              <div class="row col-6">
-                <label for="poUsd">PO amount in USD</label>
-                <input
-                  id="poUsd"
-                  type="number"
-                  step="0.01"
-                  min="0"
-                  placeholder="Enter USD amount"
-                  required
-                  style="width: 100%"
-                />
-              </div>
-              <div class="row col-6">
-                <label for="poLocal">PO in Local currency</label>
-                <input
-                  id="poLocal"
-                  type="number"
-                  step="0.01"
-                  min="0"
-                  placeholder="Auto converted"
-                  readonly
-                  style="
-                    width: 100%;
-                    font-weight: bold;
-                    color: var(--brand);
-                    background: var(--field);
-                  "
-                />
-              </div>
-            </form>
-          </div>
-          <div class="footer">
-            <span id="statusMsg" class="status">Ready</span>
-            <span class="mono" id="calcSummary"
-              >Local: — | Tax: — | Grand: —</span
-            >
+            <ol class="stepper">
+              <!-- Parent row, just a label -->
+              <li class="step step-parent completed">
+                <span class="step-marker"></span>
+                <span class="step-label">Purchase order</span>
+              </li>
+
+              <!-- Child steps mapped to panels -->
+              <li class="step completed" data-section="1">
+                <span class="step-marker"></span>
+                <span class="step-label">Purchase order details</span>
+              </li>
+
+              <li class="step active" data-section="2">
+                <span class="step-marker"></span>
+                <span class="step-label">Capability selection</span>
+              </li>
+
+              <li class="step" data-section="3">
+                <span class="step-marker"></span>
+                <span class="step-label">Supplier details</span>
+              </li>
+            </ol>
           </div>
         </section>
 
+        <!-- Actions Card with Import toolbar as header -->
         <section class="card" id="actionsCard">
+          <div class="toolbar">
+            <button id="saveBtn">Save draft</button>
+            <button class="secondary" id="loadBtn">Load draft</button>
+            <button class="ghost" id="resetBtn">Reset</button>
+            <button class="ok" id="importJsonBtn">Import Excel</button>
+            <button id="exportJsonBtn">Export Excel</button>
+            <button id="openModalBtn">Open Form</button>
+          </div>
           <h2>Actions</h2>
           <div class="container" id="poSection1">
             <div
@@ -244,53 +105,101 @@
               aria-expanded="true"
               aria-label="Toggle PO Details section 1"
             >
-              <h2>PO Details</h2>
+              <h2>PO details</h2>
               <button id="editBtn1" aria-label="Edit PO Details 1">Edit</button>
             </div>
+
             <div class="card" id="poCard1">
-              <div class="po-item">
-                <div class="po-label">PO Title</div>
-                <div class="po-value">
-                  SRPOM106574_FY26Q2 GCR AIBP Content Generation Support
+              <div class="po-form">
+                <div class="po-field">
+                  <label class="po-label" for="poOwnerDisplay">PO owner</label>
+                  <input
+                    id="poOwnerDisplay"
+                    class="po-input"
+                    type="text"
+                    value="Jessica Miao"
+                    readonly
+                  />
                 </div>
-              </div>
-              <div class="po-item">
-                <div class="po-label">PO Description</div>
-                <div class="po-value">
-                  What: Content creation services for FY26 including planning,
-                  structure, writing, and project management.
-                </div>
-              </div>
-              <div class="po-group">
-                <div class="po-item">
-                  <div class="po-label">PO Owner</div>
-                  <div
-                    class="po-value"
-                    id="poOwnerValue"
-                    data-email="sarah.li@contoso.com"
+
+                <div class="po-field">
+                  <label class="po-label" for="companyCodeDisplay"
+                    >Company code</label
                   >
-                    Sarah Li (shuyinli)
-                  </div>
+                  <input
+                    id="companyCodeDisplay"
+                    class="po-input"
+                    type="text"
+                    value="1107 - MICROSOFT CHINA CO LTD"
+                    readonly
+                  />
                 </div>
-                <div class="po-item">
-                  <div class="po-label">Company Code</div>
-                  <div class="po-value">1107 - MICROSOFT CHINA CO LTD</div>
+
+                <div class="po-field">
+                  <label class="po-label" for="orgDisplay">Organization</label>
+                  <input
+                    id="orgDisplay"
+                    class="po-input"
+                    type="text"
+                    value="Deb-Cupp"
+                    readonly
+                  />
                 </div>
-              </div>
-              <div class="po-group">
-                <div class="po-item">
-                  <div class="po-label">Shipping Location</div>
-                  <div class="po-value">
-                    No 5, Dan Ling Street, Beijing, CN, 100080
-                  </div>
+
+                <div class="po-field">
+                  <label class="po-label" for="startDateDisplay"
+                    >PO start date</label
+                  >
+                  <input
+                    id="startDateDisplay"
+                    class="po-input"
+                    type="text"
+                    value="12/1/2025"
+                    readonly
+                  />
                 </div>
-                <div class="po-item">
-                  <div class="po-label">PO Start Date</div>
-                  <div class="po-value">10/9/2025</div>
+
+                <div class="po-field po-field-full">
+                  <label class="po-label" for="shippingDisplay"
+                    >Shipping location</label
+                  >
+                  <textarea
+                    id="shippingDisplay"
+                    class="po-input po-textarea"
+                    rows="2"
+                    readonly
+                  >
+No 5, Dan Ling Street, Beijing, CN, 100080</textarea
+                  >
+                </div>
+
+                <div class="po-field po-field-full">
+                  <label class="po-label" for="titleDisplay">PO title</label>
+                  <input
+                    id="titleDisplay"
+                    class="po-input"
+                    type="text"
+                    value="FY26Q2 Copilot Chat ABM Support"
+                    readonly
+                  />
+                </div>
+
+                <div class="po-field po-field-full">
+                  <label class="po-label" for="titleDisplay"
+                    >PO description</label
+                  >
+                  <input
+                    id="poDescription"
+                    class="po-input"
+                    type="text"
+                    value="Suppliers who provide logistics and overall event management - may include event project management, overall event management lead agency responsible for event execution, promotional merchandise, security, shipping, speaker management, transportation, transportation management and housing management. This may include suppliers who produce events on behalf of Microsoft in their entirety (including digital)."
+                    readonly
+                  />
                 </div>
               </div>
             </div>
           </div>
+
           <div class="container" id="poSection2">
             <div
               class="header-row"
@@ -301,174 +210,204 @@
               aria-expanded="true"
               aria-label="Toggle PO Details section 2"
             >
-              <h2>Selected Capability</h2>
-              <button id="editBtn2" aria-label="Edit PO Details 2">Edit</button>
+              <h2>Selected capability</h2>
+              <button id="editBtn2" aria-label="Edit capability">Edit</button>
             </div>
+
             <div class="card" id="poCard2">
-              <div class="po-item">
-                <div class="po-label">Selected Capability</div>
-                <div class="po-value">Technical Content</div>
+              <p class="capability-intro">
+                A capability means the products and services that a supplier can
+                provide or perform. Based on the information you provided, the
+                following capabilities are the best match – please choose one.
+              </p>
+
+              <!-- Search bar -->
+              <div class="capability-search">
+                <input
+                  type="text"
+                  class="capability-search-input"
+                  placeholder="Content services"
+                  readonly
+                />
+                <button class="capability-search-clear" type="button" disabled>
+                  ✕
+                </button>
+              </div>
+
+              <!-- Capability cards -->
+              <div class="capability-grid">
+                <button class="capability-card" type="button" disabled>
+                  <span class="capability-title">Non‑Technical Content</span>
+                </button>
+
+                <button
+                  class="capability-card capability-card--selected"
+                  type="button"
+                  aria-pressed="true"
+                  disabled
+                >
+                  <span class="capability-title">Technical Content</span>
+                  <span class="capability-radio"></span>
+
+                  <!-- Hover detail panel -->
+                  <div class="capability-tooltip">
+                    <div class="capability-tooltip-title">
+                      Technical Content
+                    </div>
+                    <div class="capability-tooltip-meta">
+                      Category: Content Services
+                    </div>
+                    <p class="capability-tooltip-body">
+                      Suppliers that create content for the consumer and
+                      developer community, for integration in products or user
+                      experiences. Examples include technical guides, reference
+                      material, and product documentation.
+                    </p>
+                  </div>
+                </button>
+
+                <button class="capability-card" type="button" disabled>
+                  <span class="capability-title">Content Marketing</span>
+                </button>
+
+                <button class="capability-card" type="button" disabled>
+                  <span class="capability-title">
+                    Content Delivery Network (CDN) Services
+                  </span>
+                </button>
+
+                <button class="capability-card" type="button" disabled>
+                  <span class="capability-title">
+                    Written Content &amp; Localization
+                  </span>
+                </button>
+
+                <button class="capability-card" type="button" disabled>
+                  <span class="capability-title">Training Facilitation</span>
+                </button>
+
+                <button class="capability-card" type="button" disabled>
+                  <span class="capability-title">
+                    Learning Content Development/IP
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="container" id="poSection3">
+            <div
+              class="header-row"
+              id="toggleHeader3"
+              role="button"
+              tabindex="0"
+              aria-controls="poCard3"
+              aria-expanded="true"
+              aria-label="Toggle Supplier details section"
+            >
+              <h2>Supplier details</h2>
+              <button id="editBtn3" aria-label="Edit supplier details">
+                Edit
+              </button>
+            </div>
+
+            <div class="card" id="poCard3">
+              <div class="po-form">
+                <div class="po-field">
+                  <label class="po-label" for="supplierSearch">
+                    Based on the information you've provided, the following
+                    suppliers are recommended for your purchase. You also have
+                    the option to search and select other suppliers.
+                  </label>
+
+                  <div class="supplier-search">
+                    <span class="supplier-search-icon" aria-hidden="true"
+                      >🔍</span
+                    >
+                    <input
+                      id="supplierSearch"
+                      class="po-input supplier-search-input"
+                      type="search"
+                      placeholder="Search suppliers"
+                      value="Contoso Content Services Ltd."
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </section>
       </div>
-      <!-- Issues, Hints, References, and Line Items Cards BELOW -->
-      <section class="card" id="issuesCard">
-        <h2>Issues & Hints</h2>
-        <div class="body" id="issuesPanel">
-          <div class="hint">No issues yet.</div>
+
+      <!-- Modal (moved outside cards for proper layering) -->
+      <div id="modal" class="modal">
+        <div class="modal-content">
+          <span id="closeModalBtn" class="close-button">&times;</span>
+          <form class="grid" id="formGrid" autocomplete="off">
+            <div class="row col-6">
+              <label for="poManagement">PO Management</label>
+              <select id="poManagement" required>
+                <option value="" disabled selected>Select an option</option>
+                <option value="PO Extension">PO Extension</option>
+                <option value="PO Renewal">PO Renewal</option>
+              </select>
+            </div>
+            <div class="row col-6">
+              <label for="pncInfo">P&amp;C Information</label>
+              <select id="pncInfo" required>
+                <option value="" disabled selected>Select an option</option>
+                <option value="With Personal and Confidential Information">
+                  With Personal and Confidential Information
+                </option>
+                <option value="No Personal Information">
+                  No Personal Information
+                </option>
+              </select>
+            </div>
+            <div class="row col-6">
+              <label for="country">Country</label>
+              <select id="country" required>
+                <option value="" disabled selected>Select Country</option>
+                <option value="China 1107">China 1107</option>
+                <option value="India 1010">India 1010</option>
+              </select>
+            </div>
+            <div class="row col-6">
+              <label for="categoryName">Category Name</label>
+              <select id="categoryName" required>
+                <option value="" disabled selected>Select Category</option>
+                <option value="3rd Party Ad Serving">
+                  3rd Party Ad Serving
+                </option>
+                <option value="Consultancy">Consultancy</option>
+              </select>
+            </div>
+            <div class="row col-6">
+              <label for="poUsd">PO amount in USD</label>
+              <input
+                id="poUsd"
+                type="number"
+                step="0.01"
+                min="0"
+                placeholder="Enter USD amount"
+                required
+              />
+            </div>
+            <div class="row col-6">
+              <label for="poLocal">PO in Local currency</label>
+              <input
+                id="poLocal"
+                type="number"
+                step="0.01"
+                min="0"
+                placeholder="Auto converted"
+                readonly
+              />
+            </div>
+          </form>
         </div>
-        <h2>References</h2>
-        <div class="body">
-          <ul style="padding-left: 16px; margin: 0">
-            <li>
-              <a
-                href="https://ipgtgh.azurewebsites.net/PreRequestCheck/indexTGH"
-                target="_blank"
-                rel="noopener"
-                >Pre‑Request Check</a
-              >
-            </li>
-            <li>
-              <a
-                href="https://microsoft.sharepoint.com/:x:/t/MarketingServices-SDHCommunities/EZFbwEBGEY5HuTwgvHsDyLQBdVkjXxGfn9cDaS9545L7GA?e=XX0FQy"
-                target="_blank"
-                rel="noopener"
-                >Company Code / BR Guide</a
-              >
-            </li>
-            <li>
-              <a
-                href="https://msauthorize.microsoft.com/#/reporting/lookup"
-                target="_blank"
-                rel="noopener"
-                >Authorize — Reporting Lookup</a
-              >
-            </li>
-            <li>
-              <a
-                href="https://mash.crm.dynamics.com/main.aspx?appid=a91f77b7-980a-eb11-a813-000d3a3b1bda&navbar=off&pagetype=entityrecord&etn=knowledgearticle&id=e42cb655-ae84-4da2-9f4b-f845456c5df9&formid=f53f0b98-2aef-4d40-9b72-693aecf95c9d&data=%257B%2522mash_hidebpfkbarticle%2522%253A%25221%2522"
-                target="_blank"
-                rel="noopener"
-                >SH Knowledge Article</a
-              >
-            </li>
-            <li>
-              <a
-                href="https://apps.preview.powerapps.com/play/e/839eace6-59ab-4243-97ec-a5b8fcc104e4/a/769290b1-8d88-499b-baaa-469d5b143900"
-                target="_blank"
-                rel="noopener"
-                >Power Apps — MS Signatory</a
-              >
-            </li>
-          </ul>
-        </div>
-      </section>
-      <section class="card" style="grid-column: 1/-1">
-        <h2>Line Items</h2>
-        <div class="body">
-          <div class="toolbar">
-            <button id="addRowBtn">Add line</button>
-            <button class="secondary" id="clearRowsBtn">Clear lines</button>
-          </div>
-          <table>
-            <thead>
-              <tr>
-                <th style="width: 26px">#</th>
-                <th>Description</th>
-                <th style="width: 120px">Qty</th>
-                <th style="width: 140px">Unit Price (USD)</th>
-                <th style="width: 100px">Tax %</th>
-                <th style="width: 140px">Line Total</th>
-                <th style="width: 60px"></th>
-              </tr>
-            </thead>
-            <tbody id="lineBody"></tbody>
-          </table>
-        </div>
-        <div class="footer">
-          <span>Totals auto‑recalculate as you type.</span>
-        </div>
-      </section>
+      </div>
     </main>
-    <!-- Scripts -->
-    <script>
-      // Theme toggle
-      const themeToggleBtn = document.getElementById("themeToggleBtn");
-      const body = document.body;
-      const sunIcon = document.getElementById("sunIcon");
-      const moonIcon = document.getElementById("moonIcon");
-      function updateIcons() {
-        if (body.classList.contains("theme-dark")) {
-          moonIcon.style.display = "inline";
-          sunIcon.style.display = "none";
-        } else {
-          moonIcon.style.display = "none";
-          sunIcon.style.display = "inline";
-        }
-      }
-      themeToggleBtn.addEventListener("click", () => {
-        if (body.classList.contains("theme-dark")) {
-          body.classList.replace("theme-dark", "theme-light");
-        } else {
-          body.classList.replace("theme-light", "theme-dark");
-        }
-        updateIcons();
-      });
-      updateIcons();
-
-      // Currency conversion
-      const conversionRate = 7.12;
-      document.getElementById("poUsd").addEventListener("input", function () {
-        const usdValue = parseFloat(this.value) || 0;
-        document.getElementById("poLocal").value = usdValue
-          ? (usdValue * conversionRate).toFixed(2)
-          : "";
-      });
-
-      // Toggle for PO Details/Capability
-      function setupToggle(sectionNum) {
-        const toggleHeader = document.getElementById(
-          `toggleHeader${sectionNum}`
-        );
-        const poCard = document.getElementById(`poCard${sectionNum}`);
-        const editBtn = document.getElementById(`editBtn${sectionNum}`);
-        function toggleCard() {
-          const isHidden = poCard.classList.toggle("hidden");
-          toggleHeader.setAttribute("aria-expanded", !isHidden);
-          toggleHeader.classList.toggle("collapsed", isHidden);
-        }
-        toggleHeader.addEventListener("click", toggleCard);
-        toggleHeader.addEventListener("keydown", (e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            toggleCard();
-          }
-        });
-        editBtn.addEventListener("click", (event) => {
-          event.stopPropagation();
-          alert(
-            `Edit functionality to be implemented for PO Details ${sectionNum}.`
-          );
-        });
-      }
-      setupToggle(1);
-      setupToggle(2);
-
-      // ------ Populate dropdown from PO Owner field ------
-      document.addEventListener("DOMContentLoaded", function () {
-        const poOwner = document.getElementById("poOwnerValue");
-        const prepayListSelect = document.getElementById("prepayListSelect");
-        prepayListSelect.innerHTML = "";
-        if (poOwner) {
-          const opt = document.createElement("option");
-          // Uses data-email if present, textContent if not
-          opt.value = poOwner.dataset.email || poOwner.textContent;
-          opt.textContent = poOwner.textContent;
-          prepayListSelect.appendChild(opt);
-        }
-      });
-    </script>
+    <script src="js/app.js"></script>
   </body>
 </html>
