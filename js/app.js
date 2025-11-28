@@ -182,3 +182,31 @@ if (supplierSearchInput && supplierSearchClear) {
 // ---------- Initial state: section 1 visible and step mapped ----------
 showSection(1);
 setActiveStepForSection(1);
+
+// ---------- Import Excel (file picker) ----------
+const importBtn = document.getElementById("importJsonBtn");
+const importInput = document.getElementById("importExcelInput");
+
+if (importBtn && importInput) {
+  importBtn.addEventListener("click", () => {
+    importInput.click();
+  });
+
+  importInput.addEventListener("change", async (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    // TODO: use a library like SheetJS (XLSX) to parse the file
+    // Example outline:
+    // const data = await file.arrayBuffer();
+    // const workbook = XLSX.read(data, { type: "array" });
+    // const sheetName = workbook.SheetNames[0];
+    // const sheet = workbook.Sheets[sheetName];
+    // const rows = XLSX.utils.sheet_to_json(sheet);
+    // console.log("Imported rows:", rows);
+
+    alert(`Excel file selected: ${file.name}`);
+    // reset input so selecting the same file again still fires change
+    importInput.value = "";
+  });
+}
